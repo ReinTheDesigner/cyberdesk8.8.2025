@@ -51,7 +51,7 @@ pub enum GrabState {
 pub type NotifyMessageBox = fn(String, String, String, String) -> dyn Future<Output = ()>;
 
 // the executable name of the portable version
-pub const PORTABLE_APPNAME_RUNTIME_ENV_KEY: &str = "cyberdesk_APPNAME";
+pub const PORTABLE_APPNAME_RUNTIME_ENV_KEY: &str = "rustdesk_APPNAME";
 
 pub const PLATFORM_WINDOWS: &str = "Windows";
 pub const PLATFORM_LINUX: &str = "Linux";
@@ -891,7 +891,7 @@ pub fn check_software_update() {
 #[tokio::main(flavor = "current_thread")]
 pub async fn do_check_software_update() -> hbb_common::ResultType<()> {
     let (request, url) =
-        hbb_common::version_check_request(hbb_common::VER_TYPE_cyberdesk_CLIENT.to_string());
+        hbb_common::version_check_request(hbb_common::VER_TYPE_rustdesk_CLIENT.to_string());
     let latest_release_response = create_http_client_async()
         .post(url)
         .json(&request)
@@ -925,7 +925,7 @@ pub fn get_app_name() -> String {
 }
 
 #[inline]
-pub fn is_cyberdesk() -> bool {
+pub fn is_rustdesk() -> bool {
     hbb_common::config::APP_NAME.read().unwrap().eq("CyberDesk")
 }
 
@@ -1004,12 +1004,12 @@ fn get_api_server_(api: String, custom: String) -> String {
             return format!("http://{}", s);
         }
     }
-    "https://admin.cyberdesk.com".to_owned()
+    "https://admin.rustdesk.com".to_owned()
 }
 
 #[inline]
 pub fn is_public(url: &str) -> bool {
-    url.contains("cyberdesk.com")
+    url.contains("rustdesk.com")
 }
 
 pub fn get_udp_punch_enabled() -> bool {
@@ -1515,7 +1515,7 @@ impl ThrottledInterval {
 pub type CyberDeskInterval = ThrottledInterval;
 
 #[inline]
-pub fn cyberdesk_interval(i: Interval) -> ThrottledInterval {
+pub fn rustdesk_interval(i: Interval) -> ThrottledInterval {
     ThrottledInterval::new(i)
 }
 
@@ -2058,7 +2058,7 @@ mod tests {
         for maker in base_intervals.into_iter() {
             let mut tokio_timer = maker();
             let mut tokio_times = Vec::new();
-            let mut timer = cyberdesk_interval(maker());
+            let mut timer = rustdesk_interval(maker());
             let mut times = Vec::new();
             loop {
                 tokio::select! {
@@ -2105,7 +2105,7 @@ mod tests {
     async fn test_CyberDesk_interval_sleep() {
         let base_intervals = [interval_maker, interval_at_maker];
         for (i, maker) in base_intervals.into_iter().enumerate() {
-            let mut timer = cyberdesk_interval(maker());
+            let mut timer = rustdesk_interval(maker());
             let mut times = Vec::new();
             sleep(Duration::from_secs(3)).await;
             loop {

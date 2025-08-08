@@ -6,18 +6,18 @@
   <a href="#dosierstrukturo">Strukturo</a> •
   <a href="#ekrankopio">Ekrankopio</a><br>
   [<a href="../README.md">English</a>] | [<a href="README-UA.md">Українська</a>] | [<a href="README-CS.md">česky</a>] | [<a href="README-ZH.md">中文</a>] | [<a href="README-HU.md">Magyar</a>] | [<a href="README-ES.md">Español</a>] | [<a href="README-FA.md">فارسی</a>] | [<a href="README-FR.md">Français</a>] | [<a href="README-DE.md">Deutsch</a>] | [<a href="README-PL.md">Polski</a>] | [<a href="README-ID.md">Indonesian</a>] | [<a href="README-FI.md">Suomi</a>] | [<a href="README-ML.md">മലയാളം</a>] | [<a href="README-JP.md">日本語</a>] | [<a href="README-NL.md">Nederlands</a>] | [<a href="README-IT.md">Italiano</a>] | [<a href="README-RU.md">Русский</a>] | [<a href="README-PTBR.md">Português (Brasil)</a>] | [<a href="README-KR.md">한국어</a>] | [<a href="README-AR.md">العربي</a>] | [<a href="README-VN.md">Tiếng Việt</a>] | [<a href="README-GR.md">Ελληνικά</a>]<br>
-  <b>Ni bezonas helpon traduki tiun README kaj <a href="https://github.com/cyberdesk/cyberdesk/tree/master/src/lang">la interfacon</a> al via denaska lingvo</b>
+  <b>Ni bezonas helpon traduki tiun README kaj <a href="https://github.com/rustdesk/rustdesk/tree/master/src/lang">la interfacon</a> al via denaska lingvo</b>
 </p>
 
-Babili kun ni: [Discord](https://discord.gg/nDceKgxnkV) | [Twitter](https://twitter.com/cyberdesk) | [Reddit](https://www.reddit.com/r/cyberdesk) | [YouTube](https://www.youtube.com/@cyberdesk)
+Babili kun ni: [Discord](https://discord.gg/nDceKgxnkV) | [Twitter](https://twitter.com/rustdesk) | [Reddit](https://www.reddit.com/r/rustdesk) | [YouTube](https://www.youtube.com/@rustdesk)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I04VU09)
 
-Denove alia fora labortabla programo, skribita en Rust. Ĝi funkcias elskatole, ne bezonas konfiguraĵon. Vi havas la tutan kontrolon sur viaj datumoj, sen zorgo pri sekureco. Vi povas uzi nian servilon rendezvous/relajsan, [agordi vian propran](https://cyberdesk.com/server), aŭ [skribi vian propran servilon rendezvous/relajsan](https://github.com/cyberdesk/cyberdesk-server-demo).
+Denove alia fora labortabla programo, skribita en Rust. Ĝi funkcias elskatole, ne bezonas konfiguraĵon. Vi havas la tutan kontrolon sur viaj datumoj, sen zorgo pri sekureco. Vi povas uzi nian servilon rendezvous/relajsan, [agordi vian propran](https://rustdesk.com/server), aŭ [skribi vian propran servilon rendezvous/relajsan](https://github.com/rustdesk/rustdesk-server-demo).
 
 CyberDesk bonvenigas kontribuon de ĉiuj. Vidu [`docs/CONTRIBUTING.md`](CONTRIBUTING.md) por helpo komenci.
 
-[**BINARA ELŜUTO**](https://github.com/cyberdesk/cyberdesk/releases)
+[**BINARA ELŜUTO**](https://github.com/rustdesk/rustdesk/releases)
 
 ## Dependantaĵoj
 
@@ -88,8 +88,8 @@ cd
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
-git clone https://github.com/cyberdesk/cyberdesk
-cd cyberdesk
+git clone https://github.com/rustdesk/rustdesk
+cd rustdesk
 mkdir -p target/debug
 wget https://raw.githubusercontent.com/c-smile/sciter-sdk/master/bin.lnx/x64/libsciter-gtk.so
 mv libsciter-gtk.so target/debug
@@ -101,41 +101,41 @@ VCPKG_ROOT=$HOME/vcpkg cargo run
 Komencu klonante la deponejon kaj kompilu la konteneron Docker:
 
 ```sh
-git clone https://github.com/cyberdesk/cyberdesk
-cd cyberdesk
-docker build -t "cyberdesk-builder" .
+git clone https://github.com/rustdesk/rustdesk
+cd rustdesk
+docker build -t "rustdesk-builder" .
 ```
 
 Tiam, ĉiuj fojoj, kiuj vi bezonas kompili la programon, plenumu tiun komandon:
 
 ```sh
-docker run --rm -it -v $PWD:/home/user/cyberdesk -v cyberdesk-git-cache:/home/user/.cargo/git -v cyberdesk-registry-cache:/home/user/.cargo/registry -e PUID="$(id -u)" -e PGID="$(id -g)" cyberdesk-builder
+docker run --rm -it -v $PWD:/home/user/rustdesk -v rustdesk-git-cache:/home/user/.cargo/git -v rustdesk-registry-cache:/home/user/.cargo/registry -e PUID="$(id -u)" -e PGID="$(id -g)" rustdesk-builder
 ```
 
 Notu, ke la unua kompilado povas daŭri longe, antaŭ ke la dependantaĵoj estu kaŝitaj, sekvaj kompiladoj estos pli rapidaj. Aldone, se vi bezonas specifi diferentajn argumentojn por la kompilkomando, vi povas fari ĝin en la fine de la komando, en la posicio `<OPTIONAL-ARGS>`. Ekzemple, se vi volas kompili version de eldono optimigita, vi plenumus la komandon supre, kun `--release`. La plenumebla dosiero disponeblos en la cela dosierujo sur via sistemo, kaj povos esti plenumita kun:
 
 ```sh
-target/debug/cyberdesk
+target/debug/rustdesk
 ```
 
 Aŭ, se vi plenumas eldonan plenumeblan dosieron:
 
 ```sh
-target/release/cyberdesk
+target/release/rustdesk
 ```
 
 Bonvolu certigi, ke vi plenumas tiujn komandojn el la radiko de la deponejo CyberDesk, alie la programo povus esti nekapabla de trovi la devigajn resursojn. Ankaŭ notu, ke la aliaj subkomandoj de cargo kiel `install` aŭ `run` momente ne estas subtenitaj per tiu metodo, ĉar instalus aŭ plenumus la programon en la kontenero anstataŭ de la gastiganto.
 
 ## Dosierstrukturo
 
-- **[libs/hbb_common](https://github.com/cyberdesk/cyberdesk/tree/master/libs/hbb_common)**: videa kodeko, agordado, kovrilo tcp/udp, protobuf, funkcioj fs por dosiertransigo, kaj aliaj utilaĵaj funkcioj
-- **[libs/scrap](https://github.com/cyberdesk/cyberdesk/tree/master/libs/scrap)**: ekrankaptado
-- **[libs/enigo](https://github.com/cyberdesk/cyberdesk/tree/master/libs/enigo)**: operaciumspecifa kontrolo de klavaro/muso
-- **[src/ui](https://github.com/cyberdesk/cyberdesk/tree/master/src/ui)**: interfaco
-- **[src/server](https://github.com/cyberdesk/cyberdesk/tree/master/src/server)**: aŭdio/poŝo/enigo/videa servoj, kaj retkonektoj
-- **[src/client.rs](https://github.com/cyberdesk/cyberdesk/tree/master/src/client.rs)**: starti konekto kun samtavolo
-- **[src/rendezvous_mediator.rs](https://github.com/cyberdesk/cyberdesk/tree/master/src/rendezvous_mediator.rs)**: komuniki kun [cyberdesk-server](https://github.com/cyberdesk/cyberdesk-server), atendi foran direktan (TCP hole punching) aŭ relajsatan konekton
-- **[src/platform](https://github.com/cyberdesk/cyberdesk/tree/master/src/platform)**: operaciumspecifa kodo
+- **[libs/hbb_common](https://github.com/rustdesk/rustdesk/tree/master/libs/hbb_common)**: videa kodeko, agordado, kovrilo tcp/udp, protobuf, funkcioj fs por dosiertransigo, kaj aliaj utilaĵaj funkcioj
+- **[libs/scrap](https://github.com/rustdesk/rustdesk/tree/master/libs/scrap)**: ekrankaptado
+- **[libs/enigo](https://github.com/rustdesk/rustdesk/tree/master/libs/enigo)**: operaciumspecifa kontrolo de klavaro/muso
+- **[src/ui](https://github.com/rustdesk/rustdesk/tree/master/src/ui)**: interfaco
+- **[src/server](https://github.com/rustdesk/rustdesk/tree/master/src/server)**: aŭdio/poŝo/enigo/videa servoj, kaj retkonektoj
+- **[src/client.rs](https://github.com/rustdesk/rustdesk/tree/master/src/client.rs)**: starti konekto kun samtavolo
+- **[src/rendezvous_mediator.rs](https://github.com/rustdesk/rustdesk/tree/master/src/rendezvous_mediator.rs)**: komuniki kun [rustdesk-server](https://github.com/rustdesk/rustdesk-server), atendi foran direktan (TCP hole punching) aŭ relajsatan konekton
+- **[src/platform](https://github.com/rustdesk/rustdesk/tree/master/src/platform)**: operaciumspecifa kodo
 
 ## Ekrankopio
 

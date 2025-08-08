@@ -440,7 +440,7 @@ class _DesktopTabState extends State<DesktopTab>
         controller.clear();
       }
       await windowController.hide();
-      await cyberdeskWinManager
+      await rustdeskWinManager
           .call(WindowType.Main, kWindowEventHide, {"id": kWindowId!});
     }
 
@@ -462,8 +462,8 @@ class _DesktopTabState extends State<DesktopTab>
 
     // hide window on close
     if (isMainWindow) {
-      if (cyberdeskWinManager.getActiveWindows().contains(kMainWindowId)) {
-        await cyberdeskWinManager.unregisterActiveWindow(kMainWindowId);
+      if (rustdeskWinManager.getActiveWindows().contains(kMainWindowId)) {
+        await rustdeskWinManager.unregisterActiveWindow(kMainWindowId);
       }
       // macOS specific workaround, the window is not hiding when in fullscreen.
       if (isMacOS && await windowManager.isFullScreen()) {
@@ -1314,7 +1314,7 @@ class AddButton extends StatelessWidget {
     return ActionIcon(
         message: 'New Connection',
         icon: IconFont.add,
-        onTap: () => cyberdeskWinManager.call(
+        onTap: () => rustdeskWinManager.call(
             WindowType.Main, kWindowMainWindowOnTop, ""),
         isClose: false);
   }

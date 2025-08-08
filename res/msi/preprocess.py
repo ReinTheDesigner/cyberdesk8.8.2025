@@ -27,15 +27,15 @@ g_arpsystemcomponent = {
     },
     "Contact": {
         "msi": "ARPCONTACT",
-        "v": "https://github.com/cyberdesk/cyberdesk",
+        "v": "https://github.com/rustdesk/rustdesk",
     },
     "HelpLink": {
         "msi": "ARPHELPLINK",
-        "v": "https://github.com/cyberdesk/cyberdesk/issues/",
+        "v": "https://github.com/rustdesk/rustdesk/issues/",
     },
     "ReadMe": {
         "msi": "ARPREADME",
-        "v": "https://github.com/cyberdesk/cyberdesk",
+        "v": "https://github.com/rustdesk/rustdesk",
     },
 }
 
@@ -48,7 +48,7 @@ def make_parser():
         "-d",
         "--dist-dir",
         type=str,
-        default="../../cyberdesk",
+        default="../../rustdesk",
         help="The dist directory to install.",
     )
     parser.add_argument(
@@ -495,7 +495,7 @@ def update_license_file(app_name):
     license_file = Path(sys.argv[0]).parent.joinpath("Package/License.rtf")
     with open(license_file, "r", encoding="utf-8") as f:
         license_content = f.read()
-    license_content = license_content.replace("website cyberdesk.com and other ", "")
+    license_content = license_content.replace("website rustdesk.com and other ", "")
     license_content = license_content.replace("CyberDesk", app_name)
     license_content = re.sub("Purslane Ltd", app_name, license_content, flags=re.IGNORECASE)
     with open(license_file, "w", encoding="utf-8") as f:

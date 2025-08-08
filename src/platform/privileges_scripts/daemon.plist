@@ -19,8 +19,8 @@
         <key>WorkingDirectory</key>
         <string>/Applications/CyberDesk.app/Contents/MacOS/</string>
         <key>StandardErrorPath</key>
-        <string>/tmp/cyberdesk_service.err</string>
+        <string>/tmp/rustdesk_service.err</string>
         <key>StandardOutPath</key>
-        <string>/tmp/cyberdesk_service.out</string>
+        <string>/tmp/rustdesk_service.out</string>
     </dict>
 </plist>

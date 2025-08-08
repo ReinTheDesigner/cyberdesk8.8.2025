@@ -11,8 +11,8 @@
 #
 # It accepts the following arguments:
 #
-# - versionName from https://github.com/cyberdesk/cyberdesk/releases/download/fdroid-version/cyberdesk-version.txt
-# - versionCode from https://github.com/cyberdesk/cyberdesk/releases/download/fdroid-version/cyberdesk-version.txt
+# - versionName from https://github.com/rustdesk/rustdesk/releases/download/fdroid-version/rustdesk-version.txt
+# - versionCode from https://github.com/rustdesk/rustdesk/releases/download/fdroid-version/rustdesk-version.txt
 # - Android architecture to build APK for: armeabi-v7a arm64-v8av x86 x86_64
 # - The build step to execute:
 #
@@ -78,25 +78,25 @@ arm64-v8a)
 	FLUTTER_TARGET=android-arm64
 	NDK_TARGET=aarch64-linux-android
 	RUST_TARGET=aarch64-linux-android
-	cyberdesk_FEATURES='flutter,hwcodec'
+	rustdesk_FEATURES='flutter,hwcodec'
 	;;
 armeabi-v7a)
 	FLUTTER_TARGET=android-arm
 	NDK_TARGET=arm-linux-androideabi
 	RUST_TARGET=armv7-linux-androideabi
-	cyberdesk_FEATURES='flutter,hwcodec'
+	rustdesk_FEATURES='flutter,hwcodec'
 	;;
 x86_64)
 	FLUTTER_TARGET=android-x64
 	NDK_TARGET=x86_64-linux-android
 	RUST_TARGET=x86_64-linux-android
-	cyberdesk_FEATURES='flutter'
+	rustdesk_FEATURES='flutter'
 	;;
 x86)
 	FLUTTER_TARGET=android-x86
 	NDK_TARGET=i686-linux-android
 	RUST_TARGET=i686-linux-android
-	cyberdesk_FEATURES='flutter'
+	rustdesk_FEATURES='flutter'
 	;;
 *)
 	echo "ERROR: Unknown Android ABI '${ANDROID_ABI}'!" >&2
@@ -136,7 +136,7 @@ prebuild)
 		.env.CARGO_NDK_VERSION \
 		.github/workflows/flutter-build.yml)"
 
-	# Flutter used to compile main cyberdesk library
+	# Flutter used to compile main rustdesk library
 
 	FLUTTER_VERSION="$(yq -r \
 		.env.ANDROID_FLUTTER_VERSION \
@@ -312,7 +312,7 @@ prebuild)
 	git apply res/fdroid/patches/*.patch
 
 	# If Flutter version used to generate bridge files differs from Flutter
-	# version used to compile cyberdesk library, generate bridge using the
+	# version used to compile rustdesk library, generate bridge using the
 	# `FLUTTER_BRIDGE_VERSION` an restore the pubspec later
 
 	if [ "${FLUTTER_VERSION}" != "${FLUTTER_BRIDGE_VERSION}" ]; then
@@ -397,7 +397,7 @@ build)
 	# '.github/workflows/flutter-build.yml'
 	#
 
-	# Flutter used to compile main cyberdesk library
+	# Flutter used to compile main rustdesk library
 
 	FLUTTER_VERSION="$(yq -r \
 		.env.ANDROID_FLUTTER_VERSION \
@@ -447,7 +447,7 @@ build)
 
 	bash flutter/build_android_deps.sh "${ANDROID_ABI}"
 
-	# Build cyberdesk lib
+	# Build rustdesk lib
 
 	cargo ndk \
 		--platform 21 \
@@ -455,12 +455,12 @@ build)
 		--bindgen \
 		build \
 		--release \
-		--features "${cyberdesk_FEATURES}"
+		--features "${rustdesk_FEATURES}"
 
 	mkdir -p "flutter/android/app/src/main/jniLibs/${ANDROID_ABI}"
 
-	cp "target/${RUST_TARGET}/release/liblibcyberdesk.so" \
-		"flutter/android/app/src/main/jniLibs/${ANDROID_ABI}/libcyberdesk.so"
+	cp "target/${RUST_TARGET}/release/liblibrustdesk.so" \
+		"flutter/android/app/src/main/jniLibs/${ANDROID_ABI}/librustdesk.so"
 
 	cp "${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/${NDK_TARGET}/libc++_shared.so" \
 		"flutter/android/app/src/main/jniLibs/${ANDROID_ABI}/"

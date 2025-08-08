@@ -700,7 +700,7 @@ class FfiModel with ChangeNotifier {
       case kUrlActionClose:
         debugPrint("closing all instances");
         Future.microtask(() async {
-          await cyberdeskWinManager.closeAllSubWindows();
+          await rustdeskWinManager.closeAllSubWindows();
           windowManager.close();
         });
         break;
@@ -1455,7 +1455,7 @@ class FfiModel with ChangeNotifier {
 
   void setViewOnly(String id, bool value) {
     if (versionCmp(_pi.version, '1.2.0') < 0) return;
-    // tmp fix for https://github.com/cyberdesk/cyberdesk/pull/3706#issuecomment-1481242389
+    // tmp fix for https://github.com/rustdesk/rustdesk/pull/3706#issuecomment-1481242389
     // because below rx not used in mobile version, so not initialized, below code will cause crash
     // current our flutter code quality is fucking shit now. !!!!!!!!!!!!!!!!
     try {
@@ -3322,7 +3322,7 @@ class PeerInfo with ChangeNotifier {
   bool get cursorEmbedded => tryGetDisplay()?.cursorEmbedded ?? false;
 
   bool get isCyberDeskIdd =>
-      platformAdditions[kPlatformAdditionsIddImpl] == 'cyberdesk_idd';
+      platformAdditions[kPlatformAdditionsIddImpl] == 'rustdesk_idd';
   bool get isAmyuniIdd =>
       platformAdditions[kPlatformAdditionsIddImpl] == 'amyuni_idd';
 

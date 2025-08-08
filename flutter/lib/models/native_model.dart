@@ -32,7 +32,7 @@ class PlatformFFI {
   // _homeDir is only needed for Android and IOS.
   String _homeDir = '';
   final _eventHandlers = <String, Map<String, HandleEvent>>{};
-  late cyberdeskImpl _ffiBind;
+  late rustdeskImpl _ffiBind;
   late String _appType;
   StreamEventHandler? _eventCallback;
 
@@ -41,7 +41,7 @@ class PlatformFFI {
   static final PlatformFFI instance = PlatformFFI._();
   final _toAndroidChannel = const MethodChannel('mChannel');
 
-  cyberdeskImpl get ffiBind => _ffiBind;
+  rustdeskImpl get ffiBind => _ffiBind;
   F3? _session_get_rgba;
 
   static get localeName => Platform.localeName;
@@ -118,17 +118,17 @@ class PlatformFFI {
   Future<void> init(String appType) async {
     _appType = appType;
     final dylib = isAndroid
-        ? DynamicLibrary.open('libcyberdesk.so')
+        ? DynamicLibrary.open('librustdesk.so')
         : isLinux
-            ? DynamicLibrary.open('libcyberdesk.so')
+            ? DynamicLibrary.open('librustdesk.so')
             : isWindows
-                ? DynamicLibrary.open('libcyberdesk.dll')
+                ? DynamicLibrary.open('librustdesk.dll')
                 :
                 // Use executable itself as the dynamic library for MacOS.
                 // Multiple dylib instances will cause some global instances to be invalid.
                 // eg. `lazy_static` objects in rust side, will be created more than once, which is not expected.
                 //
-                // isMacOS? DynamicLibrary.open("liblibcyberdesk.dylib") :
+                // isMacOS? DynamicLibrary.open("liblibrustdesk.dylib") :
                 DynamicLibrary.process();
     debugPrint('initializing FFI $_appType');
     try {
@@ -139,7 +139,7 @@ class PlatformFFI {
       } catch (e) {
         debugPrint('Failed to get documents directory: $e');
       }
-      _ffiBind = cyberdeskImpl(dylib);
+      _ffiBind = rustdeskImpl(dylib);
 
       if (isLinux) {
         if (isMain) {
@@ -236,10 +236,10 @@ class PlatformFFI {
   }
 
   /// Start listening to the Rust core's events and frames.
-  void _startListenEvent(cyberdeskImpl cyberdeskImpl) {
+  void _startListenEvent(rustdeskImpl rustdeskImpl) {
     final appType =
         _appType == kAppTypeDesktopRemote ? '$_appType,$kWindowId' : _appType;
-    var sink = cyberdeskImpl.startGlobalEventStream(appType: appType);
+    var sink = rustdeskImpl.startGlobalEventStream(appType: appType);
     sink.listen((message) {
       () async {
         try {

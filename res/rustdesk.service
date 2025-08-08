@@ -5,13 +5,13 @@ After=systemd-user-sessions.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/cyberdesk --service
+ExecStart=/usr/bin/rustdesk --service
 # kill --tray and --server both
-ExecStop=pkill -f "cyberdesk --"
+ExecStop=pkill -f "rustdesk --"
 # below two lines do not work, have to use above one line
-#ExecStop=pkill -f "cyberdesk --tray"
-#ExecStop=pkill -f "cyberdesk --server"
-PIDFile=/run/cyberdesk.pid
+#ExecStop=pkill -f "rustdesk --tray"
+#ExecStop=pkill -f "rustdesk --server"
+PIDFile=/run/rustdesk.pid
 KillMode=mixed
 TimeoutStopSec=30
 User=root

@@ -98,7 +98,7 @@ class _ViewCameraTabPageState extends State<ViewCameraTabPage> {
       _update_remote_count();
     }
     tabController.onRemoved = (_, id) => onRemoveId(id);
-    cyberdeskWinManager.setMethodHandler(_remoteMethodHandler);
+    rustdeskWinManager.setMethodHandler(_remoteMethodHandler);
   }
 
   @override

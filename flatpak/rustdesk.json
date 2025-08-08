@@ -1,12 +1,12 @@
 {
-  "id": "com.cyberdesk.CyberDesk",
+  "id": "com.rustdesk.CyberDesk",
   "runtime": "org.freedesktop.Platform",
   "runtime-version": "24.08",
   "sdk": "org.freedesktop.Sdk",
-  "command": "cyberdesk",
+  "command": "rustdesk",
   "cleanup": ["/include", "/lib/pkgconfig", "/share/gtk-doc"],
-  "rename-desktop-file": "cyberdesk.desktop",
-  "rename-icon": "cyberdesk",
+  "rename-desktop-file": "rustdesk.desktop",
+  "rename-icon": "rustdesk",
   "modules": [
     "shared-modules/libappindicator/libappindicator-gtk3-12.10.json",
     {
@@ -34,21 +34,21 @@
       ]
     },
     {
-      "name": "cyberdesk",
+      "name": "rustdesk",
       "buildsystem": "simple",
       "build-commands": [
-        "bsdtar -Oxf cyberdesk.deb data.tar.xz | bsdtar -xf -",
+        "bsdtar -Oxf rustdesk.deb data.tar.xz | bsdtar -xf -",
         "cp -r usr/* /app/",
-        "mkdir -p /app/bin && ln -s /app/share/cyberdesk/cyberdesk /app/bin/cyberdesk"
+        "mkdir -p /app/bin && ln -s /app/share/rustdesk/rustdesk /app/bin/rustdesk"
       ],
       "sources": [
         {
           "type": "file",
-          "path": "cyberdesk.deb"
+          "path": "rustdesk.deb"
         },
         {
           "type": "file",
-          "path": "com.cyberdesk.CyberDesk.metainfo.xml"
+          "path": "com.rustdesk.CyberDesk.metainfo.xml"
         }
       ]
     }

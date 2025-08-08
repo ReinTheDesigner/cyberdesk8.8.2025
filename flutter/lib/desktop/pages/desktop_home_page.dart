@@ -432,11 +432,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     if (!bind.isCustomClient() &&
         updateUrl.isNotEmpty &&
         !isCardClosed &&
-        bind.mainUriPrefixSync().contains('cyberdesk')) {
+        bind.mainUriPrefixSync().contains('rustdesk')) {
       final isToUpdate = (isWindows || isMacOS) && bind.mainIsInstalled();
       String btnText = isToUpdate ? 'Update' : 'Download';
       GestureTapCallback onPressed = () async {
-        final Uri url = Uri.parse('https://cyberdesk.com/download');
+        final Uri url = Uri.parse('https://rustdesk.com/download');
         await launchUrl(url);
       };
       if (isToUpdate) {
@@ -508,7 +508,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
             link:
-                'https://cyberdesk.com/docs/en/client/linux/#permissions-issue',
+                'https://rustdesk.com/docs/en/client/linux/#permissions-issue',
             closeButton: true,
             closeOption: keyShowSelinuxHelpTip,
           ));
@@ -519,13 +519,13 @@ class _DesktopHomePageState extends State<DesktopHomePage>
             "Warning", "wayland_experiment_tip", "", () async {},
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
-            link: 'https://cyberdesk.com/docs/en/client/linux/#x11-required'));
+            link: 'https://rustdesk.com/docs/en/client/linux/#x11-required'));
       } else if (bind.mainIsLoginWayland()) {
         LinuxCards.add(buildInstallCard("Warning",
             "Login screen using Wayland is not supported", "", () async {},
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
-            link: 'https://cyberdesk.com/docs/en/client/linux/#login-screen'));
+            link: 'https://rustdesk.com/docs/en/client/linux/#login-screen'));
       }
       if (LinuxCards.isNotEmpty) {
         return Column(
@@ -704,7 +704,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           watchIsInputMonitoring = false;
           // Do not notify for now.
           // Monitoring may not take effect until the process is restarted.
-          // cyberdeskWinManager.call(
+          // rustdeskWinManager.call(
           //     WindowType.RemoteDesktop, kWindowDisableGrabKeyboard, '');
           setState(() {});
         }
@@ -725,7 +725,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       }
     });
     Get.put<RxBool>(svcStopped, tag: 'stop-service');
-    cyberdeskWinManager.registerActiveWindowListener(onActiveWindowChanged);
+    rustdeskWinManager.registerActiveWindowListener(onActiveWindowChanged);
 
     screenToMap(window_size.Screen screen) => {
           'frame': {
@@ -743,7 +743,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           'scaleFactor': screen.scaleFactor,
         };
 
-    cyberdeskWinManager.setMethodHandler((call, fromWindowId) async {
+    rustdeskWinManager.setMethodHandler((call, fromWindowId) async {
       debugPrint(
           "[Main] call ${call.method} with args ${call.arguments} from window $fromWindowId");
       if (call.method == kWindowMainWindowOnTop) {
@@ -761,9 +761,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       } else if (call.method == kWindowActionRebuild) {
         reloadCurrentWindow();
       } else if (call.method == kWindowEventShow) {
-        await cyberdeskWinManager.registerActiveWindow(call.arguments["id"]);
+        await rustdeskWinManager.registerActiveWindow(call.arguments["id"]);
       } else if (call.method == kWindowEventHide) {
-        await cyberdeskWinManager.unregisterActiveWindow(call.arguments['id']);
+        await rustdeskWinManager.unregisterActiveWindow(call.arguments['id']);
       } else if (call.method == kWindowConnect) {
         await connectMainDesktop(
           call.arguments['id'],
@@ -791,7 +791,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           debugPrint("Failed to parse window type '${call.arguments}': $e");
         }
         if (windowId != null && windowType != null) {
-          await cyberdeskWinManager.moveTabToNewWindow(
+          await rustdeskWinManager.moveTabToNewWindow(
               windowId, args[1], args[2], windowType);
         }
       } else if (call.method == kWindowEventOpenMonitorSession) {
@@ -802,13 +802,13 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         final displayCount = args['display_count'] as int;
         final windowType = args['window_type'] as int;
         final screenRect = parseParamScreenRect(args);
-        await cyberdeskWinManager.openMonitorSession(
+        await rustdeskWinManager.openMonitorSession(
             windowId, peerId, display, displayCount, screenRect, windowType);
       } else if (call.method == kWindowEventRemoteWindowCoords) {
         final windowId = int.tryParse(call.arguments);
         if (windowId != null) {
           return jsonEncode(
-              await cyberdeskWinManager.getOtherRemoteWindowCoords(windowId));
+              await rustdeskWinManager.getOtherRemoteWindowCoords(windowId));
         }
       }
     });

@@ -523,7 +523,7 @@ class CyberDeskMultiWindowManager {
   /// [Availability]
   /// This function should only be called from main window.
   /// For other windows, please post a unregister(hide) event to main window handler:
-  /// `cyberdeskWinManager.call(WindowType.Main, kWindowEventHide, {"id": windowId!});`
+  /// `rustdeskWinManager.call(WindowType.Main, kWindowEventHide, {"id": windowId!});`
   Future<void> unregisterActiveWindow(int windowId) async {
     _activeWindows.remove(windowId);
     if (windowId != kMainWindowId) {
@@ -574,4 +574,4 @@ class CyberDeskMultiWindowManager {
   }
 }
 
-final cyberdeskWinManager = CyberDeskMultiWindowManager.instance;
+final rustdeskWinManager = CyberDeskMultiWindowManager.instance;

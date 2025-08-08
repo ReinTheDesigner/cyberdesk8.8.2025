@@ -1,16 +1,16 @@
 #include <dlfcn.h>
 #include "my_application.h"
 
-#define cyberdesk_LIB_PATH "libcyberdesk.so"
+#define rustdesk_LIB_PATH "librustdesk.so"
 typedef bool (*CyberDeskCoreMain)();
 bool gIsConnectionManager = false;
 
 void print_help_install_pkg(const char* so);
 
-bool flutter_cyberdesk_core_main() {
-   void* libcyberdesk = dlopen(cyberdesk_LIB_PATH, RTLD_LAZY);
-   if (!libcyberdesk) {
-      fprintf(stderr,"Failed to load \"libcyberdesk.so\"\n");
+bool flutter_rustdesk_core_main() {
+   void* librustdesk = dlopen(rustdesk_LIB_PATH, RTLD_LAZY);
+   if (!librustdesk) {
+      fprintf(stderr,"Failed to load \"librustdesk.so\"\n");
       char* error;
       if ((error = dlerror()) != nullptr) {
         fprintf(stderr, "%s\n", error);
@@ -24,17 +24,17 @@ bool flutter_cyberdesk_core_main() {
       }
      return false;
    }
-   auto core_main = (CyberDeskCoreMain) dlsym(libcyberdesk,"cyberdesk_core_main");
+   auto core_main = (CyberDeskCoreMain) dlsym(librustdesk,"rustdesk_core_main");
    char* error;
    if ((error = dlerror()) != nullptr) {
-       fprintf(stderr, "Program entry \"cyberdesk_core_main\" is not found: %s\n", error);
+       fprintf(stderr, "Program entry \"rustdesk_core_main\" is not found: %s\n", error);
        return false;
    }
    return core_main();
 }
 
 int main(int argc, char** argv) {
-  if (!flutter_cyberdesk_core_main()) {
+  if (!flutter_rustdesk_core_main()) {
       return 0;
   }
   for (int i = 0; i < argc; i++) {

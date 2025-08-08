@@ -4,7 +4,7 @@ project(runner LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
-set(BINARY_NAME "cyberdesk")
+set(BINARY_NAME "rustdesk")
 # The unique GTK application identifier for this application. See:
 # https://wiki.gnome.org/HowDoI/ChooseApplicationID
 set(APPLICATION_ID "com.carriez.flutter_hbb")
@@ -74,7 +74,7 @@ apply_standard_settings(${BINARY_NAME})
 target_link_libraries(${BINARY_NAME} PRIVATE flutter)
 target_link_libraries(${BINARY_NAME} PRIVATE PkgConfig::GTK)
 target_link_libraries(${BINARY_NAME} PRIVATE ${CMAKE_DL_LIBS})
-# target_link_libraries(${BINARY_NAME} PRIVATE libcyberdesk)
+# target_link_libraries(${BINARY_NAME} PRIVATE librustdesk)
 
 # Run the Flutter tool portions of the build. This must not be removed.
 add_dependencies(${BINARY_NAME} flutter_assemble)
@@ -125,13 +125,13 @@ foreach(bundled_library ${PLUGIN_BUNDLED_LIBRARIES})
 endforeach(bundled_library)
 
 # flutter_rust_bridge
-set(cyberdesk_LIB_BUILD_TYPE $<IF:$<CONFIG:Debug>,debug,release>)
-string(TOLOWER ${CMAKE_BUILD_TYPE} ${cyberdesk_LIB_BUILD_TYPE})
-message(STATUS "cyberdesk lib build type: ${cyberdesk_LIB_BUILD_TYPE}")
+set(rustdesk_LIB_BUILD_TYPE $<IF:$<CONFIG:Debug>,debug,release>)
+string(TOLOWER ${CMAKE_BUILD_TYPE} ${rustdesk_LIB_BUILD_TYPE})
+message(STATUS "rustdesk lib build type: ${rustdesk_LIB_BUILD_TYPE}")
 
-set(cyberdesk_LIB "../../target/${cyberdesk_LIB_BUILD_TYPE}/liblibcyberdesk.so")
-install(FILES "${cyberdesk_LIB}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
-COMPONENT Runtime RENAME libcyberdesk.so)
+set(rustdesk_LIB "../../target/${rustdesk_LIB_BUILD_TYPE}/liblibrustdesk.so")
+install(FILES "${rustdesk_LIB}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
+COMPONENT Runtime RENAME librustdesk.so)
 
 # Fully re-copy the assets directory on each build to avoid having stale files
 # from a previous install.

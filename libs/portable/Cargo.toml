@@ -1,5 +1,5 @@
 [package]
-name = "cyberdesk-portable-packer"
+name = "rustdesk-portable-packer"
 version = "1.4.1"
 edition = "2021"
 description = "CyberDesk Remote Desktop"
@@ -20,7 +20,7 @@ native-windows-gui = {version = "1.0", default-features = false, features = ["an
 [package.metadata.winres]
 LegalCopyright = "Copyright © 2025 Cybertech Consultants. All rights reserved."
 ProductName = "CyberDesk"
-OriginalFilename = "cyberdesk.exe"
+OriginalFilename = "rustdesk.exe"
 FileDescription = "CyberDesk Remote Desktop"
 #ProductVersion = ""
 

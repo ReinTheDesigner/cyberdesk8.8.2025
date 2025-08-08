@@ -722,12 +722,12 @@ Future<void> windowOnTop(int? id) async {
     }
     await windowManager.show();
     await windowManager.focus();
-    await cyberdeskWinManager.registerActiveWindow(kWindowMainId);
+    await rustdeskWinManager.registerActiveWindow(kWindowMainId);
   } else {
     WindowController.fromWindowId(id)
       ..focus()
       ..show();
-    cyberdeskWinManager.call(WindowType.Main, kWindowEventShow, {"id": id});
+    rustdeskWinManager.call(WindowType.Main, kWindowEventShow, {"id": id});
   }
 }
 
@@ -1167,7 +1167,7 @@ void msgBox(SessionID sessionId, String type, String title, String text,
     if (onSubmit != null) {
       onSubmit.call();
     } else {
-      // https://github.com/cyberdesk/cyberdesk/blob/5e9a31340b899822090a3731769ae79c6bf5f3e5/src/ui/common.tis#L263
+      // https://github.com/rustdesk/rustdesk/blob/5e9a31340b899822090a3731769ae79c6bf5f3e5/src/ui/common.tis#L263
       if (!type.contains("custom") && desktopType != DesktopType.portForward) {
         closeConnection();
       }
@@ -1920,7 +1920,7 @@ Future<Offset?> _adjustRestoreMainWindowOffset(
 Future<bool> restoreWindowPosition(WindowType type,
     {int? windowId, String? peerId, int? display}) async {
   if (bind
-      .mainGetEnv(key: "DISABLE_cyberdesk_RESTORE_WINDOW_POSITION")
+      .mainGetEnv(key: "DISABLE_rustdesk_RESTORE_WINDOW_POSITION")
       .isNotEmpty) {
     return false;
   }
@@ -2003,7 +2003,7 @@ Future<bool> restoreWindowPosition(WindowType type,
             // E.g. There are two monitors, the left one is 100% DPI and the right one is 175% DPI.
             // The window belongs to the left monitor, but if it is moved a little to the right, it will belong to the right monitor.
             // After restoring, the size will be incorrect.
-            // See known issue in https://github.com/cyberdesk/cyberdesk/pull/9840
+            // See known issue in https://github.com/rustdesk/rustdesk/pull/9840
             await windowManager.setSize(size,
                 ignoreDevicePixelRatio: _ignoreDevicePixelRatio);
           }
@@ -2135,7 +2135,7 @@ bool handleUriLink({List<String>? cmdArgs, Uri? uri, String? uriString}) {
   List<String>? args;
   if (cmdArgs != null && cmdArgs.isNotEmpty) {
     args = cmdArgs;
-    // cyberdesk <uri link>
+    // rustdesk <uri link>
     if (args[0].startsWith(bind.mainUriPrefixSync())) {
       final uri = Uri.tryParse(args[0]);
       if (uri != null) {
@@ -2222,7 +2222,7 @@ bool handleUriLink({List<String>? cmdArgs, Uri? uri, String? uriString}) {
     switch (type) {
       case UriLinkType.remoteDesktop:
         Future.delayed(Duration.zero, () {
-          cyberdeskWinManager.newRemoteDesktop(id!,
+          rustdeskWinManager.newRemoteDesktop(id!,
               password: password,
               switchUuid: switchUuid,
               forceRelay: forceRelay);
@@ -2230,31 +2230,31 @@ bool handleUriLink({List<String>? cmdArgs, Uri? uri, String? uriString}) {
         break;
       case UriLinkType.fileTransfer:
         Future.delayed(Duration.zero, () {
-          cyberdeskWinManager.newFileTransfer(id!,
+          rustdeskWinManager.newFileTransfer(id!,
               password: password, forceRelay: forceRelay);
         });
         break;
       case UriLinkType.viewCamera:
         Future.delayed(Duration.zero, () {
-          cyberdeskWinManager.newViewCamera(id!,
+          rustdeskWinManager.newViewCamera(id!,
               password: password, forceRelay: forceRelay);
         });
         break;
       case UriLinkType.portForward:
         Future.delayed(Duration.zero, () {
-          cyberdeskWinManager.newPortForward(id!, false,
+          rustdeskWinManager.newPortForward(id!, false,
               password: password, forceRelay: forceRelay);
         });
         break;
       case UriLinkType.rdp:
         Future.delayed(Duration.zero, () {
-          cyberdeskWinManager.newPortForward(id!, true,
+          rustdeskWinManager.newPortForward(id!, true,
               password: password, forceRelay: forceRelay);
         });
         break;
       case UriLinkType.terminal:
         Future.delayed(Duration.zero, () {
-          cyberdeskWinManager.newTerminal(id!,
+          rustdeskWinManager.newTerminal(id!,
               password: password, forceRelay: forceRelay);
         });
         break;
@@ -2313,9 +2313,9 @@ List<String>? urlLinkToCmdArgs(Uri uri) {
   } else if (uri.authority.length > 2 &&
       (uri.path.length <= 1 ||
           (uri.path == '/r' || uri.path.startsWith('/r@')))) {
-    // cyberdesk://<connect-id>
-    // cyberdesk://<connect-id>/r
-    // cyberdesk://<connect-id>/r@<server>
+    // rustdesk://<connect-id>
+    // rustdesk://<connect-id>/r
+    // rustdesk://<connect-id>/r@<server>
     command = '--connect';
     id = uri.authority;
     if (uri.path.length > 1) {
@@ -2385,31 +2385,31 @@ connectMainDesktop(String id,
     String? connToken,
     bool? isSharedPassword}) async {
   if (isFileTransfer) {
-    await cyberdeskWinManager.newFileTransfer(id,
+    await rustdeskWinManager.newFileTransfer(id,
         password: password,
         isSharedPassword: isSharedPassword,
         connToken: connToken,
         forceRelay: forceRelay);
   } else if (isViewCamera) {
-    await cyberdeskWinManager.newViewCamera(id,
+    await rustdeskWinManager.newViewCamera(id,
         password: password,
         isSharedPassword: isSharedPassword,
         connToken: connToken,
         forceRelay: forceRelay);
   } else if (isTcpTunneling || isRDP) {
-    await cyberdeskWinManager.newPortForward(id, isRDP,
+    await rustdeskWinManager.newPortForward(id, isRDP,
         password: password,
         isSharedPassword: isSharedPassword,
         connToken: connToken,
         forceRelay: forceRelay);
   } else if (isTerminal) {
-    await cyberdeskWinManager.newTerminal(id,
+    await rustdeskWinManager.newTerminal(id,
         password: password,
         isSharedPassword: isSharedPassword,
         connToken: connToken,
         forceRelay: forceRelay);
   } else {
-    await cyberdeskWinManager.newRemoteDesktop(id,
+    await rustdeskWinManager.newRemoteDesktop(id,
         password: password,
         isSharedPassword: isSharedPassword,
         forceRelay: forceRelay);
@@ -2465,7 +2465,7 @@ connect(BuildContext context, String id,
         forceRelay: forceRelay,
       );
     } else {
-      await cyberdeskWinManager.call(WindowType.Main, kWindowConnect, {
+      await rustdeskWinManager.call(WindowType.Main, kWindowConnect, {
         'id': id,
         'isFileTransfer': isFileTransfer,
         'isViewCamera': isViewCamera,
@@ -2638,17 +2638,17 @@ bool isRunningInPortableMode() {
 /// Window status callback
 Future<void> onActiveWindowChanged() async {
   print(
-      "[MultiWindowHandler] active window changed: ${cyberdeskWinManager.getActiveWindows()}");
-  if (cyberdeskWinManager.getActiveWindows().isEmpty) {
+      "[MultiWindowHandler] active window changed: ${rustdeskWinManager.getActiveWindows()}");
+  if (rustdeskWinManager.getActiveWindows().isEmpty) {
     // close all sub windows
     try {
       if (isLinux) {
         await Future.wait([
           saveWindowPosition(WindowType.Main),
-          cyberdeskWinManager.closeAllSubWindows()
+          rustdeskWinManager.closeAllSubWindows()
         ]);
       } else {
-        await cyberdeskWinManager.closeAllSubWindows();
+        await rustdeskWinManager.closeAllSubWindows();
       }
     } catch (err) {
       debugPrintStack(label: "$err");
@@ -2742,7 +2742,7 @@ class ServerConfig {
     this.key = key?.trim() ?? '';
   }
 
-  /// decode from shared string (from user shared or cyberdesk-server generated)
+  /// decode from shared string (from user shared or rustdesk-server generated)
   /// also see [encode]
   /// throw when decoding failure
   ServerConfig.decode(String msg) {
@@ -2870,7 +2870,7 @@ Future<void> updateSystemWindowTheme() async {
 ///
 /// Note: not found a general solution for rust based AVFoundation bingding.
 /// [AVFoundation] crate has compile error.
-const kMacOSPermChannel = MethodChannel("org.cyberdesk.cyberdesk/macos");
+const kMacOSPermChannel = MethodChannel("org.rustdesk.rustdesk/macos");
 
 enum PermissionAuthorizeType {
   undetermined,
@@ -3123,7 +3123,7 @@ Future<List<Rect>> getScreenListWayland() async {
       screenRectList.add(rect);
     }
   } else {
-    final screenList = await cyberdeskWinManager.call(
+    final screenList = await rustdeskWinManager.call(
         WindowType.Main, kWindowGetScreenList, '');
     try {
       for (var screen in jsonDecode(screenList.result) as List<dynamic>) {
@@ -3223,7 +3223,7 @@ setNewConnectWindowFrame(int windowId, String peerId, int preSessionCount,
     WindowType windowType, int? display, Rect? screenRect) async {
   if (screenRect == null) {
     // Do not restore window position to new connection if there's a pre-session.
-    // https://github.com/cyberdesk/cyberdesk/discussions/8825
+    // https://github.com/rustdesk/rustdesk/discussions/8825
     if (preSessionCount == 0) {
       await restoreWindowPosition(windowType,
           windowId: windowId, display: display, peerId: peerId);
@@ -3518,7 +3518,7 @@ Widget loadPowered(BuildContext context) {
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse('https://cyberdesk.com'));
+        launchUrl(Uri.parse('https://rustdesk.com'));
       },
       child: Opacity(
           opacity: 0.5,
@@ -3599,7 +3599,7 @@ Widget _buildPresetPasswordWarning() {
           style: TextStyle(
             color: Colors.red,
             fontSize:
-                18, // https://github.com/cyberdesk/cyberdesk-server-pro/issues/261
+                18, // https://github.com/rustdesk/rustdesk-server-pro/issues/261
             fontWeight: FontWeight.bold,
           ),
         )).paddingOnly(bottom: 8),
@@ -3718,7 +3718,7 @@ get defaultOptionAccessMode => isCustomClient ? 'custom' : '';
 get defaultOptionApproveMode => isCustomClient ? 'password-click' : '';
 
 bool whitelistNotEmpty() {
-  // https://cyberdesk.com/docs/en/self-host/client-configuration/advanced-settings/#whitelist
+  // https://rustdesk.com/docs/en/self-host/client-configuration/advanced-settings/#whitelist
   final v = bind.mainGetOptionSync(key: kOptionWhitelist);
   return v != '' && v != ',';
 }
@@ -3731,8 +3731,8 @@ bool whitelistNotEmpty() {
 // When we drag the blank tab bar (not the tab), the window will be dragged normally by adding the `onPanStart` handle.
 //
 // See the following code for more details:
-// https://github.com/cyberdesk/cyberdesk/blob/ce1dac3b8613596b4d8ae981275f9335489eb935/flutter/lib/desktop/widgets/tabbar_widget.dart#L385
-// https://github.com/cyberdesk/cyberdesk/blob/ce1dac3b8613596b4d8ae981275f9335489eb935/flutter/lib/desktop/widgets/tabbar_widget.dart#L399
+// https://github.com/rustdesk/rustdesk/blob/ce1dac3b8613596b4d8ae981275f9335489eb935/flutter/lib/desktop/widgets/tabbar_widget.dart#L385
+// https://github.com/rustdesk/rustdesk/blob/ce1dac3b8613596b4d8ae981275f9335489eb935/flutter/lib/desktop/widgets/tabbar_widget.dart#L399
 //
 // @platforms macos
 disableWindowMovable(int? windowId) {
