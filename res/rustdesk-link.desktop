@@ -1,11 +1,11 @@
 [Desktop Entry]
-Name=RustDeskURL Scheme Handler
+Name=CyberDeskURL Scheme Handler
 NoDisplay=true
-MimeType=x-scheme-handler/rustdesk;
-TryExec=rustdesk
-Exec=rustdesk %u
-Icon=rustdesk
+MimeType=x-scheme-handler/cyberdesk;
+TryExec=cyberdesk
+Exec=cyberdesk %u
+Icon=cyberdesk
 Terminal=false
 Type=Application
 StartupNotify=false
-StartupWMClass=rustdesk
+StartupWMClass=cyberdesk

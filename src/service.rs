@@ -1,4 +1,4 @@
-use librustdesk::*;
+use libcyberdesk::*;
 
 #[cfg(not(target_os = "macos"))]
 fn main() {}
