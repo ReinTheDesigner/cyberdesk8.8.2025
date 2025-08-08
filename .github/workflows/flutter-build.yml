@@ -51,7 +51,7 @@ jobs:
     uses: ./.github/workflows/bridge.yml
 
   build-CyberDeskTempTopMostWindow:
-    uses: ./.github/workflows/third-party-CyberDeskTempTopMostWindow.yml
+    uses: ./.github/workflows/third-party-RustDeskTempTopMostWindow.yml
     with:
       upload-artifact: ${{ inputs.upload-artifact }}
       target: windows-2022
